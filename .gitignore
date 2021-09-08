@@ -1,0 +1,8 @@
+node_modules
+handleEmbeds.js
+test.js
+.eslintrc.json
+.vs
+.vscode
+settingsCmd.js
+.dist

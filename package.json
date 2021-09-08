@@ -1,0 +1,38 @@
+{
+  "name": "relics_audit_v2",
+  "version": "2.0.0",
+  "description": "A discord bot.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Vinayak#0001",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.26.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.1"
+  },
+  "dependencies": {
+    "brawlstars": "^2.0.1",
+    "bufferutil": "^4.0.3",
+    "common-tags": "^1.8.0",
+    "discord-akairo": "github:discord-akairo/discord-akairo",
+    "discord.js": "^13.1.0",
+    "dotenv": "^8.2.0",
+    "erlpack": "github:discord/erlpack",
+    "mongoose": "^5.11.15",
+    "node-cron": "^3.0.0",
+    "node-fetch": "^2.6.1",
+    "unirest": "^0.6.0",
+    "utf-8-validate": "^5.0.4",
+    "util": "^0.12.3",
+    "zlib-sync": "^0.1.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vinayak1337/relics-audit.git"
+  }
+}
