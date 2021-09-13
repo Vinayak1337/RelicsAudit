@@ -12,11 +12,13 @@ class ClubRequestHandler extends Request {
 		this.brawlerControl = {
 			maxAge: 0,
 			brawlers: null,
-			startedAt: 0,
+			startedAt: 0
 		};
 	}
 
-	get queue() { return this.client.requestHandler.getModule('queueHandler'); }
+	get queue() {
+		return this.client.requestHandler.getModule('queueHandler');
+	}
 
 	get token() {
 		return process.env.KEY2;
@@ -31,11 +33,12 @@ class ClubRequestHandler extends Request {
 		try {
 			if (tag === 'brawlers') {
 				this.reqBrawlers(req);
+			} else {
+				await this.execute(tag, req);
 			}
-			else {await this.execute(tag, req);}
-		}
-		finally {
-			if (!this.isBrawlerReq && this.toSendClub) this.client.emit('handleClub', this.clubsData[tag]);
+		} finally {
+			if (!this.isBrawlerReq && this.toSendClub)
+				this.client.emit('handleClub', this.clubsData[tag]);
 			if (!this.eventStarted) {
 				this.eventStarted = true;
 				this.client.on('nextReq', () => {
@@ -56,58 +59,89 @@ class ClubRequestHandler extends Request {
 		const startTime = Date.now();
 		const requestingClub = this.clubsData[tag];
 
-		const age = (startTime - requestingClub.startedAt) - (requestingClub.maxAge * 1000);
-		if (age < 0) return;
+		if (requestingClub) {
+			const age = startTime - requestingClub.startedAt - requestingClub.maxAge * 1000;
+			if (age < 0) return;
+		}
+
 		try {
 			res = await req.make(tag, this.baseurl, this.token);
-		}
-		catch (error) {
+		} catch (error) {
 			console.log(error);
 		}
 
 		const cache = res.headers.get('cache-control');
-		const ttl = cache && cache.startsWith('max-age=') ? parseInt(cache.slice(8)) : 0;
+		const ttl =
+			cache && cache.startsWith('max-age=') ? parseInt(cache.slice(8)) : 0;
 
 		const clubControl = {
 			startedAt: Date.now(),
 			club: null,
-			maxAge: ttl,
+			maxAge: ttl
 		};
 
 		const status = res.status;
 
 		switch (status) {
+			case 200:
+				{
+					const club = await this.parseJson(res);
+					clubControl.club = club;
+					this.toSendClub = true;
+				}
+				break;
 
-		case 200: {
-			const club = await this.parseJson(res);
-			clubControl.club = club;
-			this.toSendClub = true;
-		} break;
+			case 400:
+				console.log(
+					'Client provided incorrect parameters for the request.\n',
+					status,
+					'\nincorrect parameters\n',
+					tag
+				);
+				break;
 
-		case 400: console.log('Client provided incorrect parameters for the request.\n', status, '\nincorrect parameters\n', tag); break;
+			case 403:
+				console.log(
+					'Access denied, either because of missing/incorrect credentials or used API token does not grant access to the requested resource.\n',
+					status,
+					'\nincorrect credentials\n',
+					tag
+				);
+				break;
 
-		case 403: console.log('Access denied, either because of missing/incorrect credentials or used API token does not grant access to the requested resource.\n', status, '\nincorrect credentials\n', tag); break;
+			case 404:
+				console.log('Resource was not found.\n', status, '\nNot found\n', tag);
+				break;
 
-		case 404: console.log('Resource was not found.\n', status, '\nNot found\n', tag); break;
+			case 429:
+				console.log(
+					'Request was throttled, because amount of requests was above the threshold defined for the used API token.\n',
+					status,
+					'\nToo many requests\n',
+					tag
+				);
+				break;
 
-		case 429: console.log('Request was throttled, because amount of requests was above the threshold defined for the used API token.\n', status, '\nToo many requests\n', tag); break;
-
-		case 500: {
-			console.log('Unknown error happened when handling the request.\n', status, '\nUnknown error\n', tag);
-			this.execute(tag, req);
-			break;
-		}
-		case 503: {
-			if (this.waited) {
-				this.waited = !this.waited;
-				await wait(3.6e+6);
+			case 500: {
+				console.log(
+					'Unknown error happened when handling the request.\n',
+					status,
+					'\nUnknown error\n',
+					tag
+				);
+				this.execute(tag, req);
+				break;
 			}
-			else {
-				this.waited = !this.waited;
-				await wait(1.8e+6);
+			case 503: {
+				if (this.waited) {
+					this.waited = !this.waited;
+					await wait(3.6e6);
+				} else {
+					this.waited = !this.waited;
+					await wait(1.8e6);
+				}
+				return this.execute(tag, req);
 			}
-			return this.execute(tag, req);
-		}
 		}
 
 		this.clubsData[tag] = clubControl;
@@ -116,8 +150,7 @@ class ClubRequestHandler extends Request {
 	async parseJson(res) {
 		try {
 			return await res.json();
-		}
-		catch (error) {
+		} catch (error) {
 			console.log(error.message);
 			return null;
 		}
@@ -127,7 +160,8 @@ class ClubRequestHandler extends Request {
 		this.isBrawlerReq = true;
 		const startTime = Date.now();
 
-		const age = (startTime - this.brawlerControl.startedAt) - (this.brawlerControl.maxAge * 1000);
+		const age =
+			startTime - this.brawlerControl.startedAt - this.brawlerControl.maxAge * 1000;
 		if (age < 0) return;
 		let res;
 		try {
@@ -136,11 +170,10 @@ class ClubRequestHandler extends Request {
 				const json = await res.json();
 				this.client.brawlers = {
 					items: json.items,
-					size: json.items.length,
+					size: json.items.length
 				};
 			}
-		}
-		catch (error) {
+		} catch (error) {
 			console.log(req.status, '-----', error);
 		}
 	}
