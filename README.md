@@ -11,9 +11,14 @@ Relics Audit is a Discord bot developed to manage and monitor the [Relics](https
   - Monitors blacklisted members. If a blacklisted member joins any Relics club, the bot sends an alert on Discord and continues to ping every hour until the member is removed.
   - Updates club statistics and leaderboards on Discord in real-time when any changes occur in a Relics club.
 
-![image](https://github.com/Vinayak1337/RelicsAudit/assets/34209962/632fa49d-6dad-415d-823e-1b6af20be36c)
+![image](https://github.com/Vinayak1337/RelicsAudit/assets/34209962/00703433-c627-48f8-aa34-2749a0fa2765)
+
+![image](https://github.com/Vinayak1337/RelicsAudit/assets/34209962/02cce930-8539-4c03-b8e6-b075c3798b2a)
 
 ![image](https://github.com/Vinayak1337/RelicsAudit/assets/34209962/e14d2ee4-b324-4702-b9ac-a4743a24d82b)
+
+![image](https://github.com/Vinayak1337/RelicsAudit/assets/34209962/893c05f8-0a1f-4053-bb29-b5485a2c2734)
+
 
 
 
@@ -22,6 +27,9 @@ Relics Audit is a Discord bot developed to manage and monitor the [Relics](https
   - Disqualifies players from ladder rewards if they switch clubs during the season.
   - Two minutes before the season's end, the bot creates a dedicated channel and role. It assigns this role to top-performing players and notifies admins about eligible players for rewards.
   - Five minutes post-notification, the bot resets logs for players already in a Relics club, ensuring the cycle continues seamlessly.
+
+![image](https://github.com/Vinayak1337/RelicsAudit/assets/34209962/632fa49d-6dad-415d-823e-1b6af20be36c)
+
 
 ### Statistics
 - Provides detailed statistics about players, the bot's performance, and club metrics through specific commands.
