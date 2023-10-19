@@ -2,7 +2,7 @@
 
 Relics Audit is a Discord bot developed to manage and monitor the [Relics](https://twitter.com/@relics_global) Organisation's activities. It's built with Node.js and JavaScript, leveraging MongoDB for data storage and CRUD operations through the Mongoose library. The codebase adheres to the DRY (Don't Repeat Yourself) principle.
 
-**Note**: This project is deprecated. And due to changes in the API response structure of Brawl Stars & Discord, this project is no longer functional in its current state. Feel free to fork it anyways.
+**Note**: This project is deprecated. And due to changes in the API response structure of Brawl Stars & Discord, this project is somewhat functional in its current state. Feel free to fork it anyways.
 
 ## Features
 
