@@ -60,7 +60,7 @@ class AuditClient extends AkairoClient {
 			allowMention: true,
 			handleEdits: true,
 			commandUtil: true,
-			bloackBots: true,
+			blockBots: true,
 			blockClient: true,
 			fetchMembers: true,
 			storeMessages: true,
